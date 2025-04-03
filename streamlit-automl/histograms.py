@@ -83,7 +83,7 @@ class AutoHistogram:
         )
         st.altair_chart(hist, use_container_width=True)
 
-    @st.experimental_dialog("Exploratory Data Analysis")
+    @st.dialog("Exploratory Data Analysis")
     def render_grid(self):
         st.info("Click the cell to the left of a feature name to display a histogram.")
         ordered_df = self.eval_df.sort_values(by="Index").fillna('')

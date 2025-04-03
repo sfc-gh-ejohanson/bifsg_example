@@ -106,7 +106,7 @@ class ModelReg:
 
         return metric_results
 
-    @st.experimental_dialog("Model Test")
+    @st.dialog("Model Test")
     def call_test_models(self, df: Union[pd.DataFrame, DataFrame], tbl_name: str):
         test_columns = st.columns((1, 2, 2))
         test_status = test_columns[0].status("Model Test", expanded=True)
@@ -207,7 +207,6 @@ class ModelReg:
                 self.selected_model_card(loc=1)
                 self.create_version_card(version_data=version_data[1])
 
-    # @st.experimental_dialog("Comparison")
     def compare_models(self, versions, models, mode) -> None:
         compare_version_columns = st.columns(2, gap="medium")
         with st.spinner("Fetching Metadata"):
