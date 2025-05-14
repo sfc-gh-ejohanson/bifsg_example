@@ -30,11 +30,10 @@ st.markdown(
 )
 
 with st.container(height=135, border=False):
-    st.title("ML Sidekick")
-    st.caption("A no-code application for leveraging the snowflake-ml-python package")
+    st.title("Hartford BIFSG App")
     if st.session_state["workflow"] == 0:
         with st.container(border=False, height=51):
-            with st.popover("Create Project", use_container_width=True):
+            with st.popover("Run BIFSG", use_container_width=True):
                 st.button(
                     "ML Model",
                     use_container_width=True,
