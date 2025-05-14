@@ -198,12 +198,19 @@ class AutoMLModeling:
                         st.session_state["dataset"].columns,
                         index=None,
                     )
+                    session = st.connection('snowflake').session()
+
+# Change the query to point to your table
+                    query = """
+                    call sp_process_data()
+                    """
+                    data = session.sql(query).collect()
                     # Instantiate the BIFSG model
                     # bifsg = surgeo.BIFSGModel()
-                    sg = surgeo.SurgeoModel()
-                    f = surgeo.FirstNameModel()
-                    g = surgeo.GeocodeModel()
-                    s = surgeo.SurnameModel()
+                    # sg = surgeo.SurgeoModel()
+                    # f = surgeo.FirstNameModel()
+                    # g = surgeo.GeocodeModel()
+                    # s = surgeo.SurnameModel()
 
                     # Create Pandas Series objects for first names, surnames, and ZCTAs (ZIP Code Tabulation Areas)
                     first_names = pd.Series(['HECTOR', 'PHILLIP', 'JANICE'])
@@ -211,7 +218,7 @@ class AutoMLModeling:
                     zctas = pd.Series(['65201', '63144', '63110'])
 
                     # Get BIFSG probabilities
-                    bifsg_results = bifsg.get_probabilities(first_names, surnames, zctas)
+                    # bifsg_results = bifsg.get_probabilities(first_names, surnames, zctas)
 
                     st.write(bifsg_results)
 
