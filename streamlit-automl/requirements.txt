@@ -9,4 +9,3 @@ black~=24.4.2
 nbformat~=5.10.4
 nbconvert~=7.16.4
 numpy~=1.26.3
-surgeo~=1.1.2
