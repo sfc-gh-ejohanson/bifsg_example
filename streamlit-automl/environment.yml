@@ -7,4 +7,4 @@ dependencies:
   - snowflake-ml-python=1.6.0
   - snowflake-snowpark-python
   - streamlit=1.44.1
-  - surgeo=1.1.1
+  - surgeo=1.1.2
