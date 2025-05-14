@@ -202,7 +202,7 @@ class AutoMLModeling:
 
 # Change the query to point to your table
                     query = """
-                    select surgeo_udf_no_values()
+                    select ml_sidekick.test_data.surgeo_udf_no_values()
                     """
                     data = session.sql(query).collect()
                     # Instantiate the BIFSG model
