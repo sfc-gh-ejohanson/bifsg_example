@@ -199,7 +199,11 @@ class AutoMLModeling:
                         index=None,
                     )
                     # Instantiate the BIFSG model
-                    bifsg = surgeo.BIFSGModel()
+                    # bifsg = surgeo.BIFSGModel()
+                    sg = surgeo.SurgeoModel()
+                    f = surgeo.FirstNameModel()
+                    g = surgeo.GeocodeModel()
+                    s = surgeo.SurnameModel()
 
                     # Create Pandas Series objects for first names, surnames, and ZCTAs (ZIP Code Tabulation Areas)
                     first_names = pd.Series(['HECTOR', 'PHILLIP', 'JANICE'])
