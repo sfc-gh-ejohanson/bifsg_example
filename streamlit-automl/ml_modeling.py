@@ -49,7 +49,7 @@ def create_metric_card(label, value):
 class TopMenu:
     def __init__(self) -> None:
         header_menu_c = st.container(border=False, height=60)
-        header_menu = header_menu_c.columns(3)
+        header_menu = header_menu_c.columns(4)
         header_menu[0].button(
             "Select Dataset",
             key="btn_select",
