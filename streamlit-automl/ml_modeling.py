@@ -201,8 +201,11 @@ class AutoMLModeling:
                     session = st.connection('snowflake').session()
 
 # Change the query to point to your table
+                    # query = """
+                    # call ml_sidekick.test_data.surgeo_udf_no_values()
+                    # """
                     query = """
-                    select ml_sidekick.test_data.surgeo_udf_no_values()
+                    call ml_sidekick.test_data.sp_process_data()
                     """
                     data = session.sql(query).collect()
                     # Instantiate the BIFSG model
