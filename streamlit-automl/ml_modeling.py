@@ -805,141 +805,141 @@ class AutoMLModeling:
                                 hide_index=True,
                                 use_container_width=True,
                             )
-    if 3 in st.session_state["recorded_steps"] and st.session_state["dataset"]:
-        preproc_chat = st.chat_message(name="assistant", avatar=AVATAR_PATH)
-        with preproc_chat:
-            st.write("Now, let's pre-process the source dataset.")
-            st.info(
-                "Click the :mag: icon above to dig deeper into your data. If you have null values, add a **SimpleImputer** step. If you have string features, add a **OneHotEncoder** step. "
-            )
-            with st.expander(
-                "Pre-Processing Options",
-                expanded=st.session_state["app_state"] == 1,
-            ):
-                st.header("Preprocessing Options")
-                st.caption(":red[*] required fields")
-                feature_cols = st.multiselect(
-                    "Select the feature columns.:red[*]",
-                    options=st.session_state["dataset"].columns,
+        if 3 in st.session_state["recorded_steps"] and st.session_state["dataset"]:
+            preproc_chat = st.chat_message(name="assistant", avatar=AVATAR_PATH)
+            with preproc_chat:
+                st.write("Now, let's pre-process the source dataset.")
+                st.info(
+                    "Click the :mag: icon above to dig deeper into your data. If you have null values, add a **SimpleImputer** step. If you have string features, add a **OneHotEncoder** step. "
                 )
-                target_col = st.selectbox(
-                    "Select the target column.:red[*]",
-                    st.session_state["dataset"].columns,
-                    index=None,
-                )
-
-                if feature_cols and target_col:
-                    t_sub = st.session_state["dataset"].select(
-                        feature_cols + [target_col]
+                with st.expander(
+                    "Pre-Processing Options",
+                    expanded=st.session_state["app_state"] == 1,
+                ):
+                    st.header("Preprocessing Options")
+                    st.caption(":red[*] required fields")
+                    feature_cols = st.multiselect(
+                        "Select the feature columns.:red[*]",
+                        options=st.session_state["dataset"].columns,
                     )
-                    cat_cols = get_col_types(t_sub, "string")
-                    num_cols = get_col_types(t_sub, "numeric")
-
-                    if target_col in cat_cols:
-                        cat_cols.remove(target_col)
-                    if target_col in num_cols:
-                        num_cols.remove(target_col)
-
-                    preprocessor_options = [
-                        "SimpleImputer (numeric)",
-                        "SimpleImputer (categorical)",
-                        "OneHotEncoder",
-                        "StandardScaler",
-                        "MinMaxScaler",
-                        "MaxAbsScaler",
-                    ]
-                    steps_container = st.container(border=False)
-                    st.divider()
-                    st.button(
-                        "Add Step",
-                        on_click=Callbacks.add_step,
-                        use_container_width=True,
-                        type="primary",
+                    target_col = st.selectbox(
+                        "Select the target column.:red[*]",
+                        st.session_state["dataset"].columns,
+                        index=None,
                     )
 
-                    st.container(border=False, height=25)
-                    processors_map = {
-                        "SI": SimpleImputer,
-                        "OHE": OneHotEncoder,
-                        "SS": StandardScaler,
-                        "MMS": MinMaxScaler,
-                        "MAS": MaxAbsScaler,
-                    }
-                    if bool(st.session_state["preprocessing_steps"]):
-                        steps_container.divider()
-                    for steps in st.session_state["preprocessing_steps"]:
-                        with steps_container:
-                            definition = AutoPreProcessor(
-                                id=steps,
-                                preprocessor_options=preprocessor_options,
-                                num_cols=num_cols,
-                                cat_cols=cat_cols,
-                            )
-                            if definition.step_return:
-                                self.step_data[steps] = definition.step_return
-
-                    pprocessing_steps = []
-
-                    for seq, data in enumerate(self.step_data.values()):
-                        c_step = processors_map.get(data.get("preprocess_type"))
-                        if data.get("is_valid"):
-                            pprocessing_steps.append(
-                                (data.get("title"), c_step(**data.get("kw")))
-                            )
-
-                    progress_cont = st.empty()
-                    if (
-                        len(pprocessing_steps)
-                        == len(st.session_state["preprocessing_steps"])
-                        and len(st.session_state["preprocessing_steps"]) > 0
-                    ):
-                        pproc_btn = st.button(
-                            "Generate Preview",
-                            use_container_width=True,
+                    if feature_cols and target_col:
+                        t_sub = st.session_state["dataset"].select(
+                            feature_cols + [target_col]
                         )
+                        cat_cols = get_col_types(t_sub, "string")
+                        num_cols = get_col_types(t_sub, "numeric")
 
-                        if pproc_btn:
-                            prproc_prg = progress_cont.progress(
-                                value=0, text="Pre-Processing Dataset"
-                            )
-                            with prproc_prg:
-                                transform_pipeline = Pipeline(
-                                    steps=pprocessing_steps
-                                )
-                                prproc_prg.progress(
-                                    33, "Pipeline Transform Updated"
-                                )
-                                transform_pipeline.fit(st.session_state["dataset"])
-                                prproc_prg.progress(66, "Pipeline Fit Completed")
-                                st.session_state["processed_df"] = (
-                                    transform_pipeline.transform(
-                                        st.session_state["dataset"]
-                                    )
-                                )
-                                prproc_prg.progress(
-                                    100,
-                                    "Pipeline Transform Completed - Preview Available",
-                                )
-                                progress_cont.empty()
-                                st.session_state["pipeline_run"] = True
+                        if target_col in cat_cols:
+                            cat_cols.remove(target_col)
+                        if target_col in num_cols:
+                            num_cols.remove(target_col)
 
-                        preproc_preview = st.popover(
-                            "Preview", use_container_width=True
-                        )
-                        if (
-                            st.session_state["pipeline_run"]
-                            and st.session_state["processed_df"]
-                        ):
-                            preproc_preview.container(height=20, border=False)
-                            preproc_preview.dataframe(
-                                st.session_state["processed_df"].limit(10),
-                                hide_index=True,
-                            )
+                        preprocessor_options = [
+                            "SimpleImputer (numeric)",
+                            "SimpleImputer (categorical)",
+                            "OneHotEncoder",
+                            "StandardScaler",
+                            "MinMaxScaler",
+                            "MaxAbsScaler",
+                        ]
+                        steps_container = st.container(border=False)
+                        st.divider()
                         st.button(
-                            "Next",
+                            "Add Step",
+                            on_click=Callbacks.add_step,
                             use_container_width=True,
                             type="primary",
-                            on_click=set_state,
-                            args=[2],
-                            key="pproc_nxt",
                         )
+
+                        st.container(border=False, height=25)
+                        processors_map = {
+                            "SI": SimpleImputer,
+                            "OHE": OneHotEncoder,
+                            "SS": StandardScaler,
+                            "MMS": MinMaxScaler,
+                            "MAS": MaxAbsScaler,
+                        }
+                        if bool(st.session_state["preprocessing_steps"]):
+                            steps_container.divider()
+                        for steps in st.session_state["preprocessing_steps"]:
+                            with steps_container:
+                                definition = AutoPreProcessor(
+                                    id=steps,
+                                    preprocessor_options=preprocessor_options,
+                                    num_cols=num_cols,
+                                    cat_cols=cat_cols,
+                                )
+                                if definition.step_return:
+                                    self.step_data[steps] = definition.step_return
+
+                        pprocessing_steps = []
+
+                        for seq, data in enumerate(self.step_data.values()):
+                            c_step = processors_map.get(data.get("preprocess_type"))
+                            if data.get("is_valid"):
+                                pprocessing_steps.append(
+                                    (data.get("title"), c_step(**data.get("kw")))
+                                )
+
+                        progress_cont = st.empty()
+                        if (
+                            len(pprocessing_steps)
+                            == len(st.session_state["preprocessing_steps"])
+                            and len(st.session_state["preprocessing_steps"]) > 0
+                        ):
+                            pproc_btn = st.button(
+                                "Generate Preview",
+                                use_container_width=True,
+                            )
+
+                            if pproc_btn:
+                                prproc_prg = progress_cont.progress(
+                                    value=0, text="Pre-Processing Dataset"
+                                )
+                                with prproc_prg:
+                                    transform_pipeline = Pipeline(
+                                        steps=pprocessing_steps
+                                    )
+                                    prproc_prg.progress(
+                                        33, "Pipeline Transform Updated"
+                                    )
+                                    transform_pipeline.fit(st.session_state["dataset"])
+                                    prproc_prg.progress(66, "Pipeline Fit Completed")
+                                    st.session_state["processed_df"] = (
+                                        transform_pipeline.transform(
+                                            st.session_state["dataset"]
+                                        )
+                                    )
+                                    prproc_prg.progress(
+                                        100,
+                                        "Pipeline Transform Completed - Preview Available",
+                                    )
+                                    progress_cont.empty()
+                                    st.session_state["pipeline_run"] = True
+
+                            preproc_preview = st.popover(
+                                "Preview", use_container_width=True
+                            )
+                            if (
+                                st.session_state["pipeline_run"]
+                                and st.session_state["processed_df"]
+                            ):
+                                preproc_preview.container(height=20, border=False)
+                                preproc_preview.dataframe(
+                                    st.session_state["processed_df"].limit(10),
+                                    hide_index=True,
+                                )
+                            st.button(
+                                "Next",
+                                use_container_width=True,
+                                type="primary",
+                                on_click=set_state,
+                                args=[2],
+                                key="pproc_nxt",
+                            )
