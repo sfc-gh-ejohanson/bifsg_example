@@ -3,7 +3,7 @@ from pathlib import Path
 import altair as alt
 import pandas as pd
 import streamlit as st
-import surgeo
+
 from callbacks import Callbacks
 from code_exporter import create_notebook
 from common import get_col_types
@@ -202,7 +202,7 @@ class AutoMLModeling:
 
 # Change the query to point to your table
                     query = """
-                    call sp_process_data()
+                    select surgeo_udf_no_values()
                     """
                     data = session.sql(query).collect()
                     # Instantiate the BIFSG model
@@ -213,14 +213,14 @@ class AutoMLModeling:
                     # s = surgeo.SurnameModel()
 
                     # Create Pandas Series objects for first names, surnames, and ZCTAs (ZIP Code Tabulation Areas)
-                    first_names = pd.Series(['HECTOR', 'PHILLIP', 'JANICE'])
-                    surnames = pd.Series(['DIAZ', 'JOHNSON', 'WASHINGTON'])
-                    zctas = pd.Series(['65201', '63144', '63110'])
+                    # first_names = pd.Series(['HECTOR', 'PHILLIP', 'JANICE'])
+                    # surnames = pd.Series(['DIAZ', 'JOHNSON', 'WASHINGTON'])
+                    # zctas = pd.Series(['65201', '63144', '63110'])
 
                     # Get BIFSG probabilities
                     # bifsg_results = bifsg.get_probabilities(first_names, surnames, zctas)
 
-                    st.write(bifsg_results)
+                    st.write(data)
 
                     # if feature_cols and target_col:
                     #     t_sub = st.session_state["dataset"].select(
