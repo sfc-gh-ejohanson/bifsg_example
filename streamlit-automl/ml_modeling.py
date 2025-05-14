@@ -198,6 +198,18 @@ class AutoMLModeling:
                         st.session_state["dataset"].columns,
                         index=None,
                     )
+                    # Instantiate the BIFSG model
+                    bifsg = surgeo.BIFSGModel()
+
+                    # Create Pandas Series objects for first names, surnames, and ZCTAs (ZIP Code Tabulation Areas)
+                    first_names = pd.Series(['HECTOR', 'PHILLIP', 'JANICE'])
+                    surnames = pd.Series(['DIAZ', 'JOHNSON', 'WASHINGTON'])
+                    zctas = pd.Series(['65201', '63144', '63110'])
+
+                    # Get BIFSG probabilities
+                    bifsg_results = bifsg.get_probabilities(first_names, surnames, zctas)
+
+                    st.write(bifsg_results)
 
                     # if feature_cols and target_col:
                     #     t_sub = st.session_state["dataset"].select(
