@@ -208,6 +208,12 @@ class AutoMLModeling:
                     call ml_sidekick.test_data.sp_process_data()
                     """
                     data = session.sql(query).collect()
+
+                    query2 = """
+                    select * from ml_sidekick.test_data.probabilities limit 100;
+                    """
+
+                    data2 = session.sql(query2).collect()
                     # Instantiate the BIFSG model
                     # bifsg = surgeo.BIFSGModel()
                     # sg = surgeo.SurgeoModel()
@@ -223,7 +229,7 @@ class AutoMLModeling:
                     # Get BIFSG probabilities
                     # bifsg_results = bifsg.get_probabilities(first_names, surnames, zctas)
 
-                    st.write(data)
+                    st.dataframe(data2)
 
                     # if feature_cols and target_col:
                     #     t_sub = st.session_state["dataset"].select(
