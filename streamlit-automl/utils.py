@@ -130,7 +130,7 @@ def set_png_as_page_bg(png_file):
     return f"""
     <style>
     div[data-testid="stApp"] {{
-        background-color: #1d799a;
+        background-color: white;
         background-image: url("data:image/png;base64,{bin_str}");
         background-position:  center bottom;
         background-size: contain;
