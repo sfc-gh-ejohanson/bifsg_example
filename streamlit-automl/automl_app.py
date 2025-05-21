@@ -25,7 +25,7 @@ with open(Path(__file__).parent / "styles" / "css_bootstrap.html", "r") as r:
         st.session_state["css_styles"] = styles
 
 st.markdown(
-    set_png_as_page_bg(Path(__file__).parent / "resources" / "background.png"),
+    set_png_as_page_bg(Path(__file__).parent / "resources" / "background2.png"),
     unsafe_allow_html=True,
 )
 
