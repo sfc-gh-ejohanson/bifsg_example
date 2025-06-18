@@ -50,7 +50,7 @@ def create_metric_card(label, value):
 class TopMenu:
     def __init__(self) -> None:
         header_menu_c = st.container(border=False, height=60)
-        header_menu = header_menu_c.columns(4)
+        header_menu = header_menu_c.columns(3)
         header_menu[0].button(
             "Select Dataset",
             key="btn_select",
@@ -60,17 +60,8 @@ class TopMenu:
             on_click=set_state,
             args=[0],
         )
-        header_menu[3].button(
-            "Pre-Processing",
-            key="btn_preprocess",
-            use_container_width=True,
-            type="primary" if st.session_state["app_state"] == 3 else "secondary",
-            disabled=3 not in st.session_state["recorded_steps"],
-            on_click=set_state,
-            args=[3],
-        )
         header_menu[2].button(
-            "Modeling",
+            "Bias Testing",
             key="btn_modeling",
             use_container_width=True,
             type="primary" if st.session_state["app_state"] == 2 else "secondary",
