@@ -222,6 +222,15 @@ class AutoMLModeling:
 
                     st.dataframe(data2)
 
+                    st.button(
+                                "Next",
+                                use_container_width=True,
+                                type="primary",
+                                on_click=set_state,
+                                args=[2],
+                                key="pproc_nxt",
+                            )
+
                     # if feature_cols and target_col:
                     #     t_sub = st.session_state["dataset"].select(
                     #         feature_cols + [target_col]
