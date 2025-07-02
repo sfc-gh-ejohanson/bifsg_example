@@ -1,0 +1,133 @@
+product: model suite
+cov_list:
+    - cov1
+    - cov2
+target_type_list:
+    - pp
+    - freq
+    - sev
+data_path: path to data (table name or s3 path)
+primary_keys:
+    - policy_id
+    - policy_period_id
+part_cols:
+    - data_partition
+loss:
+    cov1: cov1_loss_amt
+    cov2: cov2_loss_amt
+count:
+    cov1: cov1_claim_cnt
+    cov2: cov2_claim_cnt
+exposure:
+    cov1: cov1_yr_cnt
+    cov2: cov2_yr_cnt
+sensitive_var:
+    age: age_var_name
+    gender: gender_var_name
+    race:
+        first_name: first_name_var
+        surname: surname_var
+        geocode: zip_code_var
+prediction:
+    cov1:
+        pp: model_cov1_pp_pred
+        freq: model_cov1_freq_pred
+        sev: model_cov1_sev_pred
+    cov2:
+        pp: model_cov2_pp_pred
+        freq: model_cov2_freq_pred
+        sev: model_cov2_sev_pred 
+co_controls:
+    cov1:
+        - policy_year
+        - coverage_limit
+        - deductible_amt
+        - prop_size
+        - prop_char
+    cov2:
+        - policy_year
+        - coverage_limit
+        - deductible_amt
+        - prop_size
+        - prop_location
+cas_controls:
+    cov1:
+        - policy_year
+        - coverage_limit
+        - deductible_amt
+    cov2:
+        - policy_year
+        - coverage_limit
+        - deductible_amt
+ecdis:
+    cov1:
+        - consumer_report_var1
+        - consumer_report_var2
+    cov2:
+        - consumer_report_var1_v2
+        - consumer_report_var3
+features:
+    cov1:
+        pp: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_char
+            - consumer_report_var1
+            - consumer_report_var2
+            - other_feature_1
+            - other_feature_2
+        freq: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_char
+            - prop_location            
+            - consumer_report_var1
+            - consumer_report_var2
+            - other_feature_1_v2
+        sev: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_char
+            - consumer_report_var1
+            - consumer_report_var2
+            - other_feature_1
+            - other_feature_2_v2
+            - other_feature_3
+    cov2:
+        pp: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_char
+            - prop_location            
+            - consumer_report_var1_v2
+            - consumer_report_var3
+            - other_feature_1
+            - other_feature_2
+        freq: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_location            
+            - consumer_report_var1_v2
+            - consumer_report_var3
+            - other_feature_1_v2
+            - other_feature_4
+        sev: 
+            - policy_year
+            - coverage_limit
+            - deductible_amt
+            - prop_size
+            - prop_location            
+            - consumer_report_var1_v2
+            - consumer_report_var3
+            - other_feature_1
+            - other_feature_3
